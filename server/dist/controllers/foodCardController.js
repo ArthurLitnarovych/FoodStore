@@ -24,10 +24,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getFood = void 0;
-const getData = __importStar(require("../services/foodCard"));
+const foodService = __importStar(require("../services/foodCard"));
 const getFood = async (req, res) => {
     try {
-        const data = await getData.getData(req, res);
+        let page = Number(req.query.page);
+        if (page < 1) {
+            page = 1;
+        }
+        const data = await foodService.getData(page);
         res.status(200).json({ message: "Все завантажено", data });
     }
     catch (error) {

@@ -6,16 +6,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getData = void 0;
 const foodCard_1 = __importDefault(require("../models/foodCard"));
 const foodCardConfig_1 = __importDefault(require("./foodCardConfig"));
-const getData = async (req, res) => {
-    const page = Number(req.query.page) || 1;
+const getData = async (page) => {
     const skip = (page - 1) * +foodCardConfig_1.default.itemsPerPage;
     const numOfGoods = await foodCard_1.default.countDocuments();
+    const pages = numOfGoods / +foodCardConfig_1.default.itemsPerPage;
     const items = await foodCard_1.default.find().skip(skip).limit(+foodCardConfig_1.default.itemsPerPage);
-    return res.json({
+    return {
         items,
         numOfGoods,
-        currentPage: page
-    });
+        currentPage: page,
+        pages,
+    };
 };
 exports.getData = getData;
 //# sourceMappingURL=foodCard.js.map

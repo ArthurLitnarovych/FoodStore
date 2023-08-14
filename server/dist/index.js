@@ -7,7 +7,12 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const config_1 = __importDefault(require("./config/config"));
 const mongoose_1 = __importDefault(require("mongoose"));
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
+app.use((0, cors_1.default)({
+    origin: 'http://localhost:3000',
+    optionsSuccessStatus: 200,
+}));
 dotenv_1.default.config();
 // routes import
 const foodCardRout_1 = __importDefault(require("./routes/foodCardRout"));
@@ -16,12 +21,12 @@ app.use("/api", foodCardRout_1.default);
 async function start() {
     const connectDB = async () => {
         mongoose_1.default
-            .connect(process.env.MONGODBURL, {
+            .connect(config_1.default.mongodbURL, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         })
             .catch((err) => {
-            console.log(err.message);
+            console.log(err.meassage);
             process.exit(1);
         })
             .then(() => {

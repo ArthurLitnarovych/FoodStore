@@ -3,8 +3,13 @@ import express from "express";
 import dotenv from 'dotenv';
 import config from "./config/config";
 import mongoose, { ConnectOptions } from "mongoose";
+import cors from 'cors';
 
 const app = express();
+app.use(cors({
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200,
+}))
 
 dotenv.config();
 

@@ -9,9 +9,7 @@ const App: React.FC = () => {
     <div className="App">
       <Navbar />
       <Header />
-      <Food 
-      foods = {data}
-      />
+      <Food />
     </div>
   );
 };

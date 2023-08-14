@@ -1,17 +1,20 @@
 /// <reference types="react-scripts" />
+import { data } from "./components/food/foodData";
 
-interface FoodItem {
-    id: number;
-    name: string;
-    category: string;
-    image: string;
-    price: string;
-  }
-  
-interface Props {
-    foods: FoodItem[];
-}
-
-interface FoodProp {
-    item: FoodItem;
-}
+type foodCards = {
+  message: string;
+  data: {
+    items: [
+      { _id: string },
+      { name: string },
+      { category: string },
+      { image: string },
+      { price: string },
+      { createdA: Date },
+      { __v: number }
+    ];
+    numOfGoods: number;
+    currentPage: number;
+    pages: number;
+  };
+};
