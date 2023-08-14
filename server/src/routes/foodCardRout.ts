@@ -3,5 +3,5 @@ import { getFood } from '../controllers/foodCardController';
 
 const router = express.Router();
 
-router.get('/data');
+router.get('/food', getFood);
 export default router;

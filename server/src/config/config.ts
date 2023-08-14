@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import path from 'path';
 
-dotenv.config({ path: path.join(__dirname, '.env') });
+dotenv.config();
 
 type configT = {
     port: number | string
@@ -10,7 +10,7 @@ type configT = {
 
 const config: configT = {
     port: process.env.PORT || 5000,
-    mongodbURL: `mongodb+srv://${process.env.MONGODBUSER}:${process.env.MONGODBPASSWORD}@cluster0.c81nfsj.mongodb.net/`
+    mongodbURL: String(process.env.MONGODBURL)
 };
 
 export default config;

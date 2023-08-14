@@ -4,17 +4,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const dotenv_1 = __importDefault(require("dotenv"));
 const config_1 = __importDefault(require("./config/config"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const app = (0, express_1.default)();
+dotenv_1.default.config();
 // routes import
 const foodCardRout_1 = __importDefault(require("./routes/foodCardRout"));
 // routes
-app.use("/api/food", foodCardRout_1.default);
+app.use("/api", foodCardRout_1.default);
 async function start() {
     const connectDB = async () => {
         mongoose_1.default
-            .connect(config_1.default.mongodbURL, {
+            .connect(process.env.MONGODBURL, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         })

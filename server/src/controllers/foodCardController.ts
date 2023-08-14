@@ -1,9 +1,15 @@
-import * as getData from "../services/foodCard";
+import * as foodService from "../services/foodCard";
 import { Request, Response } from 'express';
 
 export const getFood = async (req: Request, res: Response) => {
   try {
-    const data = await getData.getData(req, res);
+    let page = Number(req.query.page);
+
+    if ( page < 1 ) {
+      page = 1;
+    }
+
+    const data = await foodService.getData(page);
 
     res.status(200).json({ message: "Все завантажено", data });
   } catch (error: any) {
