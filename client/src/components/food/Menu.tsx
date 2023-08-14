@@ -4,12 +4,11 @@ import classNames from "classnames";
 import Food from "./Food";
 import { Pagination } from "@mui/material";
 import axios from "axios";
-import { foodCards } from "../../react-app-env";
 
 const Menu: React.FC = () => {
 
   const [page, setPage] = useState(1);
-  const [food, setFood] = useState<foodCards>();
+  const [food, setFood] = useState<any>();
 
   useEffect(() => {
     axios({
@@ -35,7 +34,7 @@ const Menu: React.FC = () => {
       />
 
       <Pagination
-        className="flex justify-center"
+        className="flex justify-center pt-10"
         count={food?.data?.pages || 1}
         color="primary"
         onChange={(event, curPage) => setPage(curPage)}
