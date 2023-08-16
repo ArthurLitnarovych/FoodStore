@@ -1,9 +1,3 @@
-import { useEffect, useState } from "react";
-import { data } from "./foodData";
-
-// interface BackEndData {
-//   users: string[];
-// }
 
 const FoodCard: React.FC<{ food: foodCard }> = ({ food }) => {
   return (
