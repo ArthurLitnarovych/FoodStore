@@ -1,38 +1,45 @@
 import { useState, useEffect, useCallback } from "react";
 import Food from "./Food";
 import { Pagination } from "@mui/material";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { getFood } from "../../redux/slices/foodSlice";
-// import api from '../../redux/api';
+import { getFood, setCurrentPage } from "../../redux/slices/foodSlice";
+import Filters from "../filter/Filters";
 
 const Menu: React.FC = () => {
-  const [page, setPage] = useState(1);
-  const { currentPage, pages } = useSelector(
+  const { pages, check, currentPage } = useSelector(
     (state: { menu: MenuState }) => state.menu
   );
   const dispatch = useDispatch();
+  const handleCurrentPage = (value: number) => {
+    dispatch(setCurrentPage(value));
+  };
   const loadFood = useCallback(async () => {
-    dispatch<any>(getFood({ currentPage: page }));
-  }, [dispatch, currentPage]);
+    if (check.length < 1) {
+      await dispatch<any>(getFood({ currentPage }));
+    } 
+  }, [dispatch, currentPage, check]);
+
+  
 
   useEffect(() => {
     loadFood();
-  }, [loadFood]);
+  }, [currentPage]);
 
   return (
-    <div className="max-w-[1640px] m-auto px-4 py-12">
+    <div className="max-w-[1640px] m-auto px-4 pt-12 pb-4">
       <h1 className="text-orange-600 font-bold text-4xl text-center">
         Top rated menu items
       </h1>
 
+      <Filters />
+
       <Food />
 
       <Pagination
-        className="flex justify-center pt-10"
+        className="flex justify-center"
         count={pages || 1}
         color="primary"
-        onChange={(event, curPage) => setPage(curPage)}
+        onChange={async (event, curPage) => handleCurrentPage(curPage)}
       />
     </div>
   );

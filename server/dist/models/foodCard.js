@@ -22,7 +22,7 @@ const schema = new mongoose_1.default.Schema({
         require: true,
     },
     price: {
-        type: String,
+        type: Number,
         require: true,
     },
     createdAt: {

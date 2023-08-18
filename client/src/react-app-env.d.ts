@@ -21,4 +21,9 @@ type MenuState = {
   numOfGoods: number;
   currentPage: number;
   pages: number;
+  maxPrice: number;
+  isLoading?: boolean;
+  errMessage?: string;
+  check: string[];
+  slider: number[];
 };

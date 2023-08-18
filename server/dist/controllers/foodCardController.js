@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getFood = void 0;
+exports.getFilteredFood = exports.getFood = void 0;
 const foodService = __importStar(require("../services/foodCard"));
 const getFood = async (req, res) => {
     try {
@@ -44,4 +44,23 @@ const getFood = async (req, res) => {
     }
 };
 exports.getFood = getFood;
+const getFilteredFood = async (req, res) => {
+    try {
+        let page = Number(req.query.page);
+        if (page < 1) {
+            page = 1;
+        }
+        const data = await foodService.getFilteredData(page, req.body);
+        res.status(200).json({ message: "Все завантажено", data });
+    }
+    catch (error) {
+        res
+            .status(400)
+            .json({
+            message: "Їжа не завантажилась через певну помилку",
+            err: error?.message,
+        });
+    }
+};
+exports.getFilteredFood = getFilteredFood;
 //# sourceMappingURL=foodCardController.js.map
