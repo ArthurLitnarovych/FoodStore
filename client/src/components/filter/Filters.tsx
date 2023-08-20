@@ -1,7 +1,6 @@
 import { Button, Slider } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SendIcon from "@mui/icons-material/Send";
 import {
@@ -10,7 +9,6 @@ import {
   setInputChange,
   sendCheck,
   getFood,
-  setCurrentPage,
 } from "../../redux/slices/foodSlice";
 import FiltersList from "./FiltersList";
 
@@ -18,11 +16,18 @@ const Filters = () => {
   const dispatch = useDispatch();
   const [change, setChange] = useState(1);
   const [change2, setChange2] = useState(4);
-  const { maxPrice, check, slider, currentPage } = useSelector((state: { menu: MenuState }) => state.menu);
+  const { maxPrice, check, slider, currentPage } = useSelector(
+    (state: { menu: MenuState }) => state.menu
+  );
 
   const sendFilters = async () => {
     if (check.length > 0) {
-      return await dispatch<any>(sendCheck({check: check.map((item: string) => item.toLowerCase()), currentPage}));
+      return await dispatch<any>(
+        sendCheck({
+          check: check.map((item: string) => item.toLowerCase()),
+          currentPage,
+        })
+      );
     } else {
       await dispatch<any>(getFood({ currentPage }));
     }
@@ -44,10 +49,8 @@ const Filters = () => {
   };
 
   useEffect(() => {
-    
     sendFilters();
   }, [check, currentPage]);
-
 
   return (
     <div className="pt-10">

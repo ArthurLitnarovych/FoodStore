@@ -3,3 +3,6 @@ client/node_modules/
 
 # Ignore server/node_modules
 server/node_modules/
+
+# Ignore server/.env
+server/.env

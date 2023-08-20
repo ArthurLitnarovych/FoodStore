@@ -16,10 +16,8 @@ const Menu: React.FC = () => {
   const loadFood = useCallback(async () => {
     if (check.length < 1) {
       await dispatch<any>(getFood({ currentPage }));
-    } 
+    }
   }, [dispatch, currentPage, check]);
-
-  
 
   useEffect(() => {
     loadFood();

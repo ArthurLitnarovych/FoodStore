@@ -7,11 +7,16 @@ exports.getFilteredData = exports.getData = void 0;
 const foodCard_1 = __importDefault(require("../models/foodCard"));
 const foodCardConfig_1 = __importDefault(require("./foodCardConfig"));
 const getData = async (page) => {
-    const skip = (page - 1) * +foodCardConfig_1.default.itemsPerPage;
     const numOfGoods = await foodCard_1.default.countDocuments();
     const pages = Math.ceil(numOfGoods / +foodCardConfig_1.default.itemsPerPage);
+    let newPage = page;
+    if (page > pages) {
+        newPage = pages;
+    }
+    const allitems = await foodCard_1.default.find().exec();
+    const skip = (newPage - 1) * +foodCardConfig_1.default.itemsPerPage;
     const items = await foodCard_1.default.find().skip(skip).limit(+foodCardConfig_1.default.itemsPerPage);
-    const maxPrice = Math.max(...items.map((item) => Number(item.price)));
+    const maxPrice = Math.max(...allitems.map((item) => Number(item.price)));
     return {
         items,
         numOfGoods,
@@ -22,14 +27,22 @@ const getData = async (page) => {
 };
 exports.getData = getData;
 const getFilteredData = async (page, check) => {
-    const skip = (page - 1) * +foodCardConfig_1.default.itemsPerPage;
+    const numOfGoods = await foodCard_1.default
+        .find({ category: { $in: check } })
+        .countDocuments();
+    const pages = Math.ceil(numOfGoods / +foodCardConfig_1.default.itemsPerPage);
+    let newPage = page;
+    if (page > pages) {
+        newPage = pages;
+    }
+    const skip = (newPage - 1) * +foodCardConfig_1.default.itemsPerPage;
+    const allitems = await foodCard_1.default.find({ category: { $in: check } }).exec();
     const items = await foodCard_1.default
         .find({ category: { $in: check } })
         .skip(skip)
         .limit(+foodCardConfig_1.default.itemsPerPage);
-    const numOfGoods = await foodCard_1.default.find({ category: { $in: check } }).countDocuments();
-    const pages = Math.ceil(numOfGoods / +foodCardConfig_1.default.itemsPerPage);
-    const maxPrice = Math.max(...items.map((item) => Number(item.price)));
+    const maxPrice = Math.max(...allitems.map((item) => Number(item.price)));
+    console.log(newPage);
     return {
         items,
         numOfGoods,

@@ -13,7 +13,7 @@ const FoodCard: React.FC<{ food: foodCard }> = ({ food }) => {
         <p className="font-bold">{food.name}</p>
         <p>
           <span className="bg-orange-500 text-white p-1 rounded-full">
-            {food.price}
+            {food.price}BTC
           </span>
         </p>
       </div>

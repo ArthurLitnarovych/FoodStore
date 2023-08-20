@@ -23,6 +23,7 @@ type MenuState = {
   pages: number;
   maxPrice: number;
   isLoading?: boolean;
+  isLoadingFiltered?: boolean;
   errMessage?: string;
   check: string[];
   slider: number[];

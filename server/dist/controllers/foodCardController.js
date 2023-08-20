@@ -35,9 +35,7 @@ const getFood = async (req, res) => {
         res.status(200).json({ message: "Все завантажено", data });
     }
     catch (error) {
-        res
-            .status(400)
-            .json({
+        res.status(400).json({
             message: "Їжа не завантажилась через певну помилку",
             err: error?.message,
         });
@@ -46,17 +44,15 @@ const getFood = async (req, res) => {
 exports.getFood = getFood;
 const getFilteredFood = async (req, res) => {
     try {
-        let page = Number(req.query.page);
+        let page = Number(req.body.page);
         if (page < 1) {
             page = 1;
         }
-        const data = await foodService.getFilteredData(page, req.body);
+        const data = await foodService.getFilteredData(page, req.body.check);
         res.status(200).json({ message: "Все завантажено", data });
     }
     catch (error) {
-        res
-            .status(400)
-            .json({
+        res.status(400).json({
             message: "Їжа не завантажилась через певну помилку",
             err: error?.message,
         });

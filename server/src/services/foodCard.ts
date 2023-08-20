@@ -3,14 +3,14 @@ import fConfig from "./foodCardConfig";
 
 export const getData = async (page: number) => {
   const numOfGoods = await foodCard.countDocuments();
-  const pages = Math.ceil(numOfGoods/+fConfig.itemsPerPage);
+  const pages = Math.ceil(numOfGoods / +fConfig.itemsPerPage);
   let newPage = page;
   if (page > pages) {
     newPage = pages;
   }
   const allitems = await foodCard.find().exec();
   const skip = (newPage - 1) * +fConfig.itemsPerPage;
-  
+
   const items = await foodCard.find().skip(skip).limit(+fConfig.itemsPerPage);
   const maxPrice = Math.max(...allitems.map((item) => Number(item.price)));
 
@@ -24,7 +24,9 @@ export const getData = async (page: number) => {
 };
 
 export const getFilteredData = async (page: number, check: string[]) => {
-  const numOfGoods = await foodCard.find({ category: { $in: check } }).countDocuments()
+  const numOfGoods = await foodCard
+    .find({ category: { $in: check } })
+    .countDocuments();
   const pages = Math.ceil(numOfGoods / +fConfig.itemsPerPage);
   let newPage = page;
   if (page > pages) {
@@ -36,10 +38,8 @@ export const getFilteredData = async (page: number, check: string[]) => {
     .find({ category: { $in: check } })
     .skip(skip)
     .limit(+fConfig.itemsPerPage);
-  
-  const maxPrice = Math.max(...allitems.map((item) => Number(item.price)));
 
-  console.log(newPage);
+  const maxPrice = Math.max(...allitems.map((item) => Number(item.price)));
 
   return {
     items,

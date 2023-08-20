@@ -17,7 +17,7 @@ export const setSlider = createAction<number[]>("menu/setSlider");
 export const setInputChange = createAction<{ index: number; value: number }>(
   "menu/setInputChange"
 );
-export const setCurrentPage = createAction<number>('menu/setCurrentPage');
+export const setCurrentPage = createAction<number>("menu/setCurrentPage");
 
 export const getFood = createAsyncThunk(
   "menu/fetchFood",
@@ -35,17 +35,24 @@ export const getFood = createAsyncThunk(
 
 export const sendCheck = createAsyncThunk(
   "menu/send-check",
-  async ( params: { check: string[], currentPage: number }, { rejectWithValue } ) => {
+  async (
+    params: { check: string[]; currentPage: number },
+    { rejectWithValue }
+  ) => {
     try {
-      const response = await api.post('/filter-food', { check: params.check, page: params.currentPage }, {
-        headers: { 'Content-Type': 'application/json' }
-      });
+      const response = await api.post(
+        "/filter-food",
+        { check: params.check, page: params.currentPage },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
       return response.data;
     } catch (error: any) {
       console.error(error);
       return rejectWithValue(error.message);
-    };
+    }
   }
 );
 
@@ -69,7 +76,9 @@ const foodSlice = createSlice({
 
     builder.addCase(setSlider, (state, action) => {
       const newValue = action.payload;
-      const newSlider = Array.isArray(newValue) ? newValue : [1, state.slider[1]];
+      const newSlider = Array.isArray(newValue)
+        ? newValue
+        : [1, state.slider[1]];
       state.slider = newSlider;
     });
 
@@ -93,42 +102,50 @@ const foodSlice = createSlice({
     });
 
     builder
-    // getFood
-    .addMatcher(
-      (action) => action.type === getFood.pending.type,
-      (state) => {
-        state.isLoading = true
-      }
-    )
-    .addMatcher(
-      (action) => action.type === getFood.fulfilled.type,
-      (state, action) => {
-        state.items = action.payload.data.items;
-        state.numOfGoods = action.payload.data.numOfGoods;
-        state.currentPage = action.payload.data.currentPage;
-        state.pages = action.payload.data.pages;
-        state.maxPrice = action.payload.data.maxPrice;
-        state.slider = [1, action.payload.data.maxPrice];
-        state.isLoading = false;
-      }
-    )
-    .addMatcher(
-      (action) => action.type === getFood.rejected.type,
-      (state, action) => {
-        state.isLoading = false
-      }
-    )
-    .addMatcher(
-      (action) => action.type === sendCheck.fulfilled.type,
-      (state, action) => {
-        state.items = action.payload.data.items;
-        state.numOfGoods = action.payload.data.numOfGoods;
-        state.currentPage = action.payload.data.currentPage;
-        state.pages = action.payload.data.pages;
-        state.maxPrice = action.payload.data.maxPrice;
-        state.slider = [1, action.payload.data.maxPrice];
-        state.isLoading = false;
-      });
+      // getFood
+      .addMatcher(
+        (action) => action.type === getFood.pending.type,
+        (state) => {
+          state.isLoading = true;
+        }
+      )
+      .addMatcher(
+        (action) => action.type === getFood.fulfilled.type,
+        (state, action) => {
+          state.items = action.payload.data.items;
+          state.numOfGoods = action.payload.data.numOfGoods;
+          state.currentPage = action.payload.data.currentPage;
+          state.pages = action.payload.data.pages;
+          state.maxPrice = action.payload.data.maxPrice;
+          state.slider = [1, action.payload.data.maxPrice];
+          state.isLoading = false;
+        }
+      )
+      .addMatcher(
+        (action) => action.type === getFood.rejected.type,
+        (state, action) => {
+          state.isLoading = false;
+        }
+      )
+      // getFilteredFood
+      .addMatcher(
+        (action) => action.type === sendCheck.fulfilled.type,
+        (state, action) => {
+          state.items = action.payload.data.items;
+          state.numOfGoods = action.payload.data.numOfGoods;
+          state.currentPage = action.payload.data.currentPage;
+          state.pages = action.payload.data.pages;
+          state.maxPrice = action.payload.data.maxPrice;
+          state.slider = [1, action.payload.data.maxPrice];
+          state.isLoading = false;
+        }
+      )
+      .addMatcher(
+        (action) => action.type === sendCheck.pending.type,
+        (state) => {
+          state.isLoading = true;
+        }
+      );
   },
 });
 
